@@ -1,0 +1,24 @@
+{
+  "name": "vue-source",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build:reactivity": "esbuild copy/reactivity/src/index.ts --bundle --format=esm --platform=browser --sourcemap --outfile=copy/reactivity/dist/index.js",
+    "watch:reactivity": "esbuild copy/reactivity/src/index.ts --bundle --format=esm --platform=browser --sourcemap --outfile=copy/reactivity/dist/index.js --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.33.0",
+  "dependencies": {
+    "vue": "^3.5.32"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.0",
+    "minimist": "^1.2.8",
+    "typescript": "^6.0.2"
+  }
+}

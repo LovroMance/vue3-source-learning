@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Vue3源码分析 - 别偷懒</h1>
+    <div id="app">
+    </div>
+    <script type="module">
+    import { reactive, effect } from './copy/reactivity/dist/index.js'
+
+    let obj = { name: 'Jack', age: 18, addAge: () => { obj.age++ } }
+
+    const state1 = reactive(obj)
+    const state2 = reactive(obj)
+    console.log(state1.name);
+    console.log(state1 === state2) // true
+    
+    const _effect = effect(() => {
+        app.innerHTML = ` ${state1.name} - ${state1.age}`
+    })
+
+    setTimeout(() => {
+        state1.age++;
+        console.log("长大了");
+    }, 1000);
+    </script>
+</body>
+</html>
