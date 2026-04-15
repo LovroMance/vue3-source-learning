@@ -1,5 +1,5 @@
 import { activeEffect } from "./effect.js";
-import { track } from "./reactiveEffect.js";
+import { track, trigger } from "./reactiveEffect.js";
 //  reactive标识
 export enum ReactiveFlags {
     IS_REACTIVE = "__v_isReactive",
@@ -11,6 +11,7 @@ export const mutableHandlers: ProxyHandler<any> = {
             return true;
         }
         // debugger; 调试
+        // 通过属性的访问来收集依赖
         track(target, key);
 
         return Reflect.get(target, key, receiver);
@@ -19,8 +20,15 @@ export const mutableHandlers: ProxyHandler<any> = {
         // Reflect的话，当name发生变化的时候，getName方法就无法获取到最新的name了
         //return target[key]; 会导致获得的如果是方法，里面的指向就会指向原始对象而非代理Proxy
     },
-    
+
     set(target, key, value, receiver) {
-        return Reflect.set(target, key, value, receiver);
+        let oldValue = target[key];
+        let result = Reflect.set(target, key, value, receiver);
+
+        if (oldValue !== value) {
+            // 新旧不同 -> 触发更新
+            trigger(target, key, value, oldValue);
+        }
+        return result;
     },
 };

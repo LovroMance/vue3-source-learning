@@ -9,6 +9,7 @@ function createReactiveObject(target: any) {
     }
 
     // 已经是reactive了，直接返回
+    // 只有是代理才会触发代理的get，而在那里会返回true，否则不会是true也就认定这不是一个代理对象
     if (target[ReactiveFlags.IS_REACTIVE]) {
         return target;
     }
